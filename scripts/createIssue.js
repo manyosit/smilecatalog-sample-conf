@@ -1,5 +1,5 @@
 try {
-    const description = requestData.requestDefinition.instances.root.instances[0].product.instances[0].description.value;
+    const description = requestData.requestDefinition.instances.root.instances[0].description.value;
     const product = requestData.requestDefinition.instances.root.instances[0].product.value.value;
 
     const result = await adapter.github.createIssue(params.title, description, product, 'VKB');
