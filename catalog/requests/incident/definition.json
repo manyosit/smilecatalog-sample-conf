@@ -5,11 +5,7 @@
   "image": "firewall.jpg",
   "title": "Störung melden",
   "description": "Melden Sie eine Störung an einem SMILE Produkt",
-  "approvals": [
-    "approvalField1",
-    "approvalField2",
-    "approvalField3"
-  ],
+  "approvals": [],
   "requestDefinition": {
     "id": "root",
     "type": "block",
@@ -42,19 +38,12 @@
     ]
   },
   "entitlementScript": {
-    "id": "entitlements/checkITUser",
+    "id": "entitlements/everyone",
     "params": {},
     "scope": "global"
   },
   "executeOnLoad": [],
-  "executeBeforeSubmit": [
-    {
-      "id": "setApprover",
-      "params": {
-        "foo": "bar"
-      }
-    }
-  ],
+  "executeBeforeSubmit": [],
   "executeAfterSubmit": [
     {
       "id": "createIssue",
