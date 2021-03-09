@@ -1,0 +1,63 @@
+{
+  "version": 4,
+  "id": "serverRestart",
+  "srdId": "SRGAA5V0GENAWAO6U07LO5YL6Q945Z",
+  "title": "Server Restart",
+  "image": "restart.jpg",
+  "description": "Einen Server neustarten",
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "min": 1,
+    "title": "Server wählen",
+    "max": 15,
+    "hidden": "1==1",
+    "items": [
+      {
+        "type": "multiselect",
+        "id": "serverName",
+        "label": "Servername",
+        "rows": 1,
+        "required": true,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Item' = \"Server\"",
+            "form": "AST:ComputerSystem",
+            "labelField": "Name",
+            "valueField": "Name"
+          },
+          "sortOnLabel": true,
+          "scope": "global"
+        },
+        "value": ""
+      }
+    ]
+  },
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [],
+  "executeBeforeSubmit": [
+    {
+      "id": "setApprover",
+      "params": {
+        "foo": "bar"
+      }
+    }
+  ],
+  "executeAfterSubmit": [
+    {
+      "id": "createServiceRequest",
+      "scope": "global",
+      "params": {}
+    }
+  ]
+}

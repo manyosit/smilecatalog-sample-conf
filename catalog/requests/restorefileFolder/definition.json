@@ -1,0 +1,100 @@
+{
+  "id": "restorefileFolder",
+  "version": "2",
+  "description": "Stellen Sie eine Datei oder einen Ordner wieder her.",
+  "srdId": "123",
+  "title": "Datei / Ordner wiederherstellen",
+  "image": "restorefileFolder.jpg",
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "min": 1,
+    "title": "",
+    "max": 999,
+    "items": [
+      {
+        "type": "radiogroup",
+        "id": "type",
+        "label": "Typ",
+        "cols": 4,
+        "required": true,
+        "dataInputs": [
+          {
+            "id": "FileServer",
+            "label": "File Server"
+          },
+          {
+            "id": "Application Server",
+            "label": "Application Server"
+          }
+        ]
+      },
+      {
+        "type": "multiselect",
+        "id": "server",
+        "label": "Server",
+        "cols": 4,
+        "required": true,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Item' = \"Server\"",
+            "form": "AST:ComputerSystem",
+            "labelField": "Name",
+            "valueField": "InstanceId"
+          },
+          "sortOnLabel": true,
+          "scope": "global"
+        }
+      },
+      {
+        "type": "text",
+        "id": "nameOfFile",
+        "label": "Datei oder Ordnername",
+        "cols": 2,
+        "rows": 1,
+        "required": true
+      },
+      {
+        "type": "text",
+        "id": "restoreName",
+        "label": "Name der Wiederhergestellten Datei / Ordners",
+        "cols": 2,
+        "rows": 1,
+        "required": true
+      },
+      {
+        "type": "datefield",
+        "id": "restoreDate",
+        "label": "Wiederherstellungsdatum",
+        "cols": 4
+      }
+    ]
+  },
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [],
+  "executeBeforeSubmit": [
+    {
+      "id": "setApprover",
+      "params": {
+        "foo": "bar"
+      }
+    }
+  ],
+  "executeAfterSubmit": [
+    {
+      "id": "createServiceRequest",
+      "scope": "global",
+      "params": {}
+    }
+  ]
+}

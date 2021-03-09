@@ -1,0 +1,68 @@
+{
+  "id": "restoreServer",
+  "version": "1",
+  "description": "Stellen Sie die Sicherung eines Servers wieder her",
+  "srdId": "123",
+  "title": "Serversicherung wiederherstellen",
+  "image": "restoreServer.png",
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "min": 1,
+    "title": "",
+    "max": 5,
+    "items": [
+      {
+        "type": "multiselect",
+        "id": "server",
+        "label": "Server",
+        "cols": 4,
+        "required": true,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Item' = \"Server\"",
+            "form": "AST:ComputerSystem",
+            "labelField": "Name",
+            "valueField": "InstanceId"
+          },
+          "sortOnLabel": true,
+          "scope": "global"
+        }
+      },
+      {
+        "type": "datefield",
+        "id": "restoreDate",
+        "label": "Wiederherstellungsdatum",
+        "cols": 4,
+        "required": true
+      }
+    ]
+  },
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [],
+  "executeBeforeSubmit": [
+    {
+      "id": "setApprover",
+      "params": {
+        "foo": "bar"
+      }
+    }
+  ],
+  "executeAfterSubmit": [
+    {
+      "id": "createServiceRequest",
+      "scope": "global",
+      "params": {}
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "id": "changeServerConfig",
+  "version": "2",
+  "description": "Ändern Sie die Konfiguration einen Servers",
+  "srdId": "123",
+  "title": "Server Ändern",
+  "image": "serverConfiguration.jpg",
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "min": 1,
+    "title": "",
+    "max": 999,
+    "items": [
+      {
+        "type": "select",
+        "id": "server",
+        "label": "Server",
+        "cols": 4,
+        "required": true,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Item' = \"Server\"",
+            "form": "AST:ComputerSystem",
+            "labelField": "Name",
+            "valueField": "Instance Id"
+          },
+          "sortOnLabel": true,
+          "scope": "global"
+        }
+      },
+      {
+        "type": "text",
+        "id": "actualMemory",
+        "label": "Aktueller Arbeitsspeicher",
+        "cols": 2,
+        "rows": 1,
+        "readonly": true,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "dependOn": "$CURRENT$.server.value.value",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Instance Id' = \"${params.currentValue}\"",
+            "form": "AST:ComputerSystem",
+            "labelField": "Total Physical Memory",
+            "valueField": "Total Physical Memory"
+          },
+          "sortOnLabel": true,
+          "scope": "global"
+        }
+      },
+      {
+        "type": "text",
+        "id": "futureMemory",
+        "label": "Zukünftiger Arbeitsspeicher",
+        "cols": 2,
+        "rows": 1,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "dependOn": "$CURRENT$.server.value.value",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Instance Id' = \"${params.currentValue}\"",
+            "form": "AST:ComputerSystem",
+            "labelField": "Total Physical Memory",
+            "valueField": "Total Physical Memory"
+          },
+          "sortOnLabel": true,
+          "scope": "global"
+        }
+      },
+      {
+        "type": "text",
+        "id": "actualCpu",
+        "label": "Zukünftiger Arbeitsspeicher",
+        "cols": 2,
+        "rows": 1,
+        "readonly": true,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "dependOn": "$CURRENT$.server.value.value",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Rel Lead Instance Id' = \"${params.currentValue}\"",
+            "form": "AST:Processor",
+            "labelField": "NumberOfCores",
+            "valueField": "NumberOfCores"
+          },
+          "sortOnLabel": true,
+          "scope": "global"
+        }
+      },
+      {
+        "type": "text",
+        "id": "futureCpu",
+        "label": "Zukünftiger Arbeitsspeicher",
+        "cols": 2,
+        "rows": 1,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "dependOn": "$CURRENT$.server.value.value",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Rel Lead Instance Id' = \"${params.currentValue}\"",
+            "form": "AST:Processor",
+            "labelField": "NumberOfCores",
+            "valueField": "NumberOfCores"
+          },
+          "sortOnLabel": true,
+          "scope": "global"
+        }
+      },
+      {
+        "type": "block",
+        "id": "disks",
+        "title": "Select Disks",
+        "min": 1,
+        "max": 5,
+        "items": [
+          {
+            "type": "select",
+            "id": "disk",
+            "label": "Select Disk",
+            "cols": 4,
+            "readonly": true,
+            "dataDefinition": {
+              "script": "remedy/ars101",
+              "dependOn": "$CURRENT[-2]$.server.value.value",
+              "params": {
+                "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Rel Lead Instance Id' = \"${params.currentValue}\"",
+                "form": "AST:DiskDrive",
+                "labelField": "Name",
+                "valueField": "Instance Id"
+              },
+              "sortOnLabel": true,
+              "scope": "global"
+            }
+          },
+          {
+            "type": "text",
+            "id": "actualSize",
+            "label": "Aktuelle Disksize",
+            "cols": 2,
+            "rows": 1,
+            "readonly": true,
+            "dataDefinition": {
+              "script": "remedy/ars101",
+              "dependOn": "$CURRENT$.disk.value.value",
+              "params": {
+                "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Instance Id' = \"${params.currentValue}\"",
+                "form": "AST:DiskDrive",
+                "labelField": "Size",
+                "valueField": "Size"
+              },
+              "sortOnLabel": true,
+              "scope": "global"
+            }
+          },
+          {
+            "type": "text",
+            "id": "futureSize",
+            "label": "Zukünftige Disksize",
+            "cols": 2,
+            "rows": 1,
+            "dataDefinition": {
+              "script": "remedy/ars101",
+              "dependOn": "$CURRENT$.disk.value.value",
+              "params": {
+                "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Instance Id' = \"${params.currentValue}\"",
+                "form": "AST:DiskDrive",
+                "labelField": "Size",
+                "valueField": "Size"
+              },
+              "sortOnLabel": true,
+              "scope": "global"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [],
+  "executeBeforeSubmit": [
+    {
+      "id": "setApprover",
+      "params": {
+        "foo": "bar"
+      }
+    }
+  ],
+  "executeAfterSubmit": [
+    {
+      "id": "createServiceRequest",
+      "scope": "global",
+      "params": {}
+    }
+  ]
+}

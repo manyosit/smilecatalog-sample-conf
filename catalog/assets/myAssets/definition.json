@@ -1,0 +1,28 @@
+{
+  "version": 3,
+  "title": "Meine Assets",
+  "description": "All Assets that I own or use.",
+  "image":"myassets.jpg",
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {
+
+    },
+    "scope": "global"
+  },
+  "dataScript": {
+    "id": "getMyAssets",
+    "params": {
+
+    }
+  },
+  "actions": [
+
+  ],
+  "filter": [
+    {
+      "label": "Nur aktive Geräte",
+      "definition": ""
+    }
+  ]
+}

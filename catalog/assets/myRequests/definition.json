@@ -1,0 +1,29 @@
+{
+    "version": 3,
+    "title": "My Requests",
+    "description": "All Requests & Tickets requested by and for me.",
+    "image": "myRequests.jpg",
+    "entitlementScript": {
+        "id": "entitlements/checkITUser",
+        "params": {},
+        "scope": "global"
+    },
+    "dataScript": {
+        "id": "getMyRequests",
+        "params": {}
+    },
+    "expandable":{
+        "dataScript": {
+             "id": "getMyComments",
+            "params": {}
+        },
+        "value":"key"
+    },
+    "actions": [],
+    "filter": [
+        {
+            "label": "Nur aktive Geräte",
+            "definition": ""
+        }
+    ]
+}

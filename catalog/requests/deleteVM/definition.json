@@ -1,0 +1,102 @@
+{
+  "id": "deleteVM",
+  "version": "1",
+  "description": "Löschen Sie einen server",
+  "srdId": "123",
+  "title": "Server löschen",
+  "image": "deleteVM.jpg",
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "min": 1,
+    "title": "",
+    "max": 5,
+    "items": [
+      {
+        "type": "multiselect",
+        "id": "server",
+        "label": "Server",
+        "cols": 4,
+        "required": true,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Item' = \"Server\"",
+            "queryWithValue": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Item' = \"Server\" AND ('Name' LIKE \"%${params.currentValue.value}%\" OR 'DNS Host Name' LIKE \"%${params.currentValue.value}%\")",
+            "form": "AST:ComputerSystem",
+            "labelField": "Name",
+            "valueField": "InstanceId"
+          },
+          "sortOnLabel": true,
+          "scope": "global"
+        }
+      },
+      {
+        "type": "switch",
+        "id": "runbackup",
+        "label": "Letztes Backup erzeugen?",
+        "cols": 1,
+        "required": false
+      },
+      {
+        "type": "text",
+        "id": "backupTime",
+        "label": "Wie lang soll das Backup aufbewahrt werden?",
+        "cols": 3,
+        "rows": 1,
+        "regex": "^[0-9]{1,3}$",
+        "regexHint": "Anzahl in Tagen",
+        "hidden": "${$CURRENT$.runbackup.value}!==true"
+      },
+      {
+        "type": "switch",
+        "id": "archivingNeeded",
+        "label": "Wird eine Archivierung benötigt?",
+        "cols": 1
+      },
+      {
+        "type": "text",
+        "id": "archivingTime",
+        "label": "Wie lang soll das Archiv aufbewahrt werden?",
+        "cols": 3,
+        "rows": 1,
+        "required": false,
+        "regex": "^[0-9]{1,3}$",
+        "regexHint": "Anzahl in Tagen",
+        "hidden": "${$CURRENT$.archivingNeeded.value}!==true"
+      },
+      {
+        "type": "datefield",
+        "id": "deleteDate",
+        "label": "Löschdatum",
+        "cols": 4
+      }
+    ]
+  },
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [],
+  "executeBeforeSubmit": [
+    {
+      "id": "setApprover",
+      "params": {
+        "foo": "bar"
+      }
+    }
+  ],
+  "executeAfterSubmit": [
+    {
+      "id": "createServiceRequest",
+      "scope": "global",
+      "params": {}
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+    "version": 3,
+    "title": "Assets of my Cost Centers",
+    "description": "All Assets of my Cost Centers",
+    "image": "costcenter_assets.jpg",
+    "entitlementScript": {
+        "id": "entitlements/checkITUser",
+        "params": {},
+        "scope": "global"
+    },
+    "dataScript": {
+        "id": "getMyCostCenterAssets",
+        "params": {}
+    },
+    "actions": [],
+    "filter": [
+        {
+            "label": "Nur aktive Geräte",
+            "definition": ""
+        }
+    ]
+}

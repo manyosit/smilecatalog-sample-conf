@@ -1,0 +1,244 @@
+{
+  "id": "changeServerConfigTest",
+  "version": "2",
+  "description": "Ändern Sie die Konfiguration einen Servers",
+  "srdId": "123",
+  "title": "Server Ändern - onChangeScripts",
+  "image": "serverConfiguration.jpg",
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "min": 1,
+    "title": "",
+    "max": 999,
+    "items": [
+      {
+        "type": "text",
+        "id": "readOnlyTest",
+        "label": "On Load Result Test",
+        "cols": 4,
+        "rows": 1,
+        "readonly": true
+      },
+      {
+        "type": "select",
+        "id": "server",
+        "label": "Server",
+        "cols": 4,
+        "onChangeScriptsQualification": "${$CURRENT$.server.value.value}!==undefined",
+        "onChangeScripts": [
+          {
+            "script": {
+              "id": "remedy/ars101",
+              "params": {
+                "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Instance Id' = \"${params.currentValue.value}\"",
+                "form": "AST:ComputerSystem",
+                "labelField": "Total Physical Memory",
+                "valueField": "Total Physical Memory"
+              },
+              "sortOnLabel": true,
+              "scope": "global"
+            },
+            "resultMapping": [
+              {
+                "target": "$CURRENT$.actualMemory.value",
+                "val": "scriptResult[0].value"
+              },
+              {
+                "target": "$CURRENT$.futureMemory.value",
+                "val": "scriptResult[0].value"
+              }
+            ]
+          },
+          {
+            "script": {
+              "id": "remedy/ars101",
+              "params": {
+                "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Rel Lead Instance Id' = \"${params.currentValue.value}\"",
+                "form": "AST:Processor",
+                "labelField": "NumberOfCores",
+                "valueField": "NumberOfCores"
+              },
+              "sortOnLabel": true,
+              "scope": "global"
+            },
+            "resultMapping": [
+              {
+                "target": "$CURRENT$.actualCpu.value",
+                "val": "scriptResult[0].value"
+              },
+              {
+                "target": "$CURRENT$.futureCpu.value",
+                "val": "scriptResult[0].value"
+              }
+            ]
+          },
+          {
+            "script": {
+              "id": "remedy/ars101",
+              "params": {
+                "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Rel Lead Instance Id' = \"${params.currentValue.value}\"",
+                "form": "AST:DiskDrive",
+                "labelField": "Name",
+                "valueField": "Instance Id"
+              },
+              "sortOnLabel": true,
+              "scope": "global"
+            },
+            "resultMapping": [
+              {
+                "target": "$CURRENT$.disks..disk",
+                "val": "scriptResult",
+                "type": "dataInputs"
+              }
+            ]
+          }
+        ],
+        "required": true,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Item' = \"Server\"",
+            "form": "AST:ComputerSystem",
+            "labelField": "Name",
+            "valueField": "Instance Id"
+          },
+          "sortOnLabel": true,
+          "scope": "global"
+        }
+      },
+      {
+        "type": "text",
+        "id": "actualMemory",
+        "label": "Aktueller Arbeitsspeicher",
+        "cols": 2,
+        "rows": 1,
+        "readonly": true
+      },
+      {
+        "type": "text",
+        "id": "futureMemory",
+        "label": "Zukünftiger Arbeitsspeicher",
+        "cols": 2,
+        "rows": 1
+      },
+      {
+        "type": "text",
+        "id": "actualCpu",
+        "label": "Zukünftiger Arbeitsspeicher",
+        "cols": 2,
+        "rows": 1,
+        "readonly": true
+      },
+      {
+        "type": "text",
+        "id": "futureCpu",
+        "label": "Zukünftiger Arbeitsspeicher",
+        "cols": 2,
+        "rows": 1
+      },
+      {
+        "type": "block",
+        "id": "disks",
+        "title": "Select Disks",
+        "min": 1,
+        "max": 5,
+        "items": [
+          {
+            "type": "select",
+            "id": "disk",
+            "label": "Select Disk",
+            "cols": 4,
+            "onChangeScriptsQualification": "1==1",
+            "onChangeScripts": [
+              {
+                "script": {
+                  "id": "remedy/ars101",
+                  "params": {
+                    "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Instance Id' = \"${params.currentValue.value}\"",
+                    "form": "AST:DiskDrive",
+                    "labelField": "Size",
+                    "valueField": "Size"
+                  },
+                  "sortOnLabel": true,
+                  "scope": "global"
+                },
+                "resultMapping": [
+                  {
+                    "target": "$CURRENT$.actualSize.value",
+                    "val": "scriptResult[0].value"
+                  },
+                  {
+                    "target": "$CURRENT$.futureSize.value",
+                    "val": "scriptResult[0].value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "id": "actualSize",
+            "label": "Aktuelle Disksize",
+            "cols": 2,
+            "rows": 1,
+            "readonly": true
+          },
+          {
+            "type": "text",
+            "id": "futureSize",
+            "label": "Zukünftige Disksize",
+            "cols": 2,
+            "rows": 1
+          }
+        ]
+      }
+    ]
+  },
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [
+    {
+      "script": {
+        "id": "remedy/ars101",
+        "params": {
+          "query": "'Remedy Login ID'=\"astern\"",
+          "form": "CTM:People",
+          "labelField": "Remedy Login ID",
+          "valueField": "Remedy Login ID"
+        },
+        "sortOnLabel": true,
+        "scope": "global"
+      },
+      "resultMapping": [
+        {
+          "target": "$CURRENT$.instances[0].readOnlyTest.value",
+          "val": "scriptResult[0].value"
+        }
+      ]
+    }
+  ],
+  "executeBeforeSubmit": [
+    {
+      "id": "setApprover",
+      "params": {
+        "foo": "bar"
+      }
+    }
+  ],
+  "executeAfterSubmit": [
+    {
+      "id": "createServiceRequest",
+      "scope": "global",
+      "params": {}
+    }
+  ]
+}

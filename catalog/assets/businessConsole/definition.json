@@ -1,0 +1,29 @@
+{
+    "version": 3,
+    "title": "Business Manager Console",
+    "description": "All Tickets of my customers and organizations.",
+    "image": "manager.jpg",
+    "entitlementScript": {
+        "id": "entitlements/checkITUser",
+        "params": {},
+        "scope": "global"
+    },
+    "dataScript": {
+        "id": "getMyRequests",
+        "params": {}
+    },
+    "expandable":{
+        "dataScript": {
+             "id": "getMyComments",
+            "params": {}
+        },
+        "value":"key"
+    },
+    "actions": [],
+    "filter": [
+        {
+            "label": "Nur aktive Geräte",
+            "definition": ""
+        }
+    ]
+}

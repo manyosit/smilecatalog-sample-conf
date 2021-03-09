@@ -1,0 +1,108 @@
+{
+  "id": "softwareCatalog",
+  "version": "1",
+  "description": "Bestellen Software für Ihre Clients und Accounts",
+  "srdId": "123sdfjdskfjdskf",
+  "title": "Software bestellen",
+  "image": "software-251509.webp",
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "min": 1,
+    "title": "",
+    "max": 999,
+    "items": [
+      {
+        "type": "select",
+        "id": "software",
+        "label": "Software",
+        "cols": 4,
+        "onChangeScriptsQualification": "${$CURRENT$.software.value.value}!==undefined",
+        "onChangeScripts": [
+          {
+            "script": {
+              "id": "cmdb/getSoftwareDetails",
+              "params": {},
+              "sortOnLabel": true,
+              "scope": "global"
+            },
+            "resultMapping": [
+              {
+                "target": "$CURRENT$.object",
+                "val": "scriptResult.accountComputerSelectiion",
+                "type": "dataInputs"
+              },
+              {
+                "target": "$CURRENT$.beschreibung.value",
+                "val": "scriptResult.description"
+              }
+            ]
+          }
+        ],
+        "required": true,
+        "dataDefinition": {
+          "script": "cmdb/getSoftwareCatalog",
+          "params": {
+            "sortOnLabel": true
+          },
+          "scope": "global"
+        }
+      },
+      {
+        "type": "text",
+        "id": "beschreibung",
+        "readonly": true,
+        "label": "Software Beschreibung",
+        "rows": 3,
+        "required": true,
+        "cols": 4
+      },
+      {
+        "type": "select",
+        "id": "object",
+        "label": "Ziel Objekt",
+        "cols": 4,
+        "required": true
+      }
+    ]
+  },
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [
+    {
+      "script": {
+        "id": "remedy/ars101",
+        "params": {
+          "query": "'Remedy Login ID'=\"astern\"",
+          "form": "CTM:People",
+          "labelField": "Remedy Login ID",
+          "valueField": "Remedy Login ID"
+        },
+        "sortOnLabel": true,
+        "scope": "global"
+      },
+      "resultMapping": [
+        {
+          "target": "$CURRENT$.instances[0].readOnlyTest.value",
+          "val": "scriptResult[0].value"
+        }
+      ]
+    }
+  ],
+  "executeBeforeSubmit": [],
+  "executeAfterSubmit": [
+    {
+      "id": "createServiceRequest",
+      "scope": "global",
+      "params": {}
+    }
+  ]
+}

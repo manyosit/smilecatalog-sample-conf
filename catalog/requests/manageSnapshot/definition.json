@@ -1,0 +1,91 @@
+{
+  "version": 3,
+  "id": "manageSnapshot",
+  "srdId": "SRGAA5V0GENAWAO6U07LO5YL6Q945Z",
+  "title": "Snapshot",
+  "image": "snapshot.jpg",
+  "description": "Erzeugen, löschen oder springen Sie zu einem Snapshot",
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "min": 1,
+    "title": "Snapshot",
+    "max": 15,
+    "hidden": "1==1",
+    "items": [
+      {
+        "type": "radiogroup",
+        "id": "action",
+        "label": "Aktion",
+        "required": true,
+        "dataInputs": [
+          {
+            "id": "create",
+            "label": "Erstellen"
+          },
+          {
+            "id": "delete",
+            "label": "Löschen"
+          },
+          {
+            "id": "revert",
+            "label": "Zurücksetzen"
+          }
+        ]
+      },
+      {
+        "type": "multiselect",
+        "id": "serverName",
+        "label": "Servername",
+        "rows": 1,
+        "required": true,
+        "dataDefinition": {
+          "script": "remedy/ars101",
+          "params": {
+            "query": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Item' = \"Server\"",
+			"queryWithValue": "'AssetLifecycleStatus'=\"Deployed\" AND 'Data Set Id' = \"BMC.ASSET\" AND 'Item' = \"Server\" AND 'Name' LIKE \"${params.currentValue.value}\"",
+            "form": "AST:ComputerSystem",
+            "labelField": "Name",
+            "valueField": "InstanceId",
+            "sortOnLabel": true
+          },
+          "scope": "global"
+        },
+        "value": ""
+      },
+      {
+        "type": "text",
+        "id": "snapshotName",
+        "label": "Snapshotname",
+        "rows": 1,
+        "required": true
+      }
+    ]
+  },
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [],
+  "executeBeforeSubmit": [
+    {
+      "id": "setApprover",
+      "params": {
+        "foo": "bar"
+      }
+    }
+  ],
+  "executeAfterSubmit": [
+    {
+      "id": "createServiceRequest",
+      "scope": "global",
+      "params": {}
+    }
+  ]
+}

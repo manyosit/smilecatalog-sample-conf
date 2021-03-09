@@ -1,0 +1,28 @@
+{
+  "version": 3,
+  "title": "My Cost Centers",
+  "description": "Cost Centers I manage",
+  "image":"costcenters.jpg",
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {
+
+    },
+    "scope": "global"
+  },
+  "dataScript": {
+    "id": "getMyCostCenters",
+    "params": {
+
+    }
+  },
+  "actions": [
+
+  ],
+  "filter": [
+    {
+      "label": "Nur aktive Geräte",
+      "definition": ""
+    }
+  ]
+}

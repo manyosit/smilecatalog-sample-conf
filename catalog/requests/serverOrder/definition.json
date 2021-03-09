@@ -1,0 +1,117 @@
+{
+  "id": "serverOrder",
+  "version": 3,
+  "srdId": "SRGAA5V0GENAWAO6U07LO5YL6Q945Z",
+  "image": "order.jpg",
+  "title": "Server bestellen",
+  "description": "Bestell einen neuen Server",
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "min": 1,
+    "max": 5,
+    "hidden": "1=1",
+    "items": [
+      {
+        "id": "costcenterblock",
+        "type": "block",
+        "template": "costcenter",
+        "min": 1,
+        "max": 5,
+        "hidden": "1=1",
+        "items": [
+          {
+            "type": "select",
+            "id": "anwender",
+            "label": "Lieblingsmitarbeiter",
+            "rows": 1,
+            "dataDefinition": {
+              "script": "remedy/ars101",
+              "params": {
+                "query": "'Profile Status' =\"Enabled\"",
+                "queryWithValue": "'Full Name' LIKE \"%${params.currentValue.value}%\"",
+                "form": "CTM:People",
+                "labelField": [
+                  "Full Name",
+                  "Department"
+                ],
+                "valueField": "Person ID",
+                "sortOnLabel": true
+              },
+              "scope": "global",
+              "sortOnLabel": true
+            },
+            "value": ""
+          },
+          {
+            "type": "select",
+            "id": "costcenter",
+            "label": "Kostenstelle",
+            "rows": 1,
+            "dataDefinition": {
+              "script": "remedy/ars101",
+              "params": {
+                "query": "'Status' =\"Active\"",
+                "queryWithValue": "'Cost Center Name' LIKE \"%${params.currentValue.value}%\" OR 'Cost Center Code' LIKE \"%${params.currentValue.value}%\"",
+                "form": "FIN:ConfigCostCentersRepository",
+                "labelField": [
+                  "Cost Center Code",
+                  "Cost Center Name",
+                  "Status"
+                ],
+                "valueField": "Cost Center Code",
+                "sortOnLabel": true
+              },
+              "scope": "global",
+              "sortOnLabel": true
+            },
+            "value": ""
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "demoHidden",
+        "label": "Demo Text Hide Feld",
+        "rows": 1,
+        "hidden": "`${demo-switch}` == true"
+      }
+    ]
+  },
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [],
+  "executeBeforeSubmit": [
+    {
+      "id": "setApprover",
+      "params": {
+        "foo": "bar"
+      }
+    }
+  ],
+  "executeAfterSubmit": [
+    {
+      "id": "createServiceRequest",
+      "scope": "global",
+      "params": {
+        "form": "SRM:RequestInterface_Create",
+        "dataField": "SR Type Field 1",
+        "entry": {
+          "Source Keyword": "SMILEcatalog",
+          "Company": "Calbro Services",
+          "AppRequestSummary": "Neuer SMILEcatalog Request",
+          "TitleInstanceID": "SRGAA5V0GENAWAO6U07LO5YL6Q945Z",
+          "Login ID": "rhannemann"
+        }
+      }
+    }
+  ]
+}

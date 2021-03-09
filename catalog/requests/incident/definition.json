@@ -1,0 +1,75 @@
+{
+  "id": "incident",
+  "version": 3,
+  "srdId": "SRGAA5V0GENAWAO6U07LO5YL6Q945Z",
+  "image": "firewall.jpg",
+  "title": "Störung melden",
+  "description": "Melden Sie eine Störung an einem SMILE Produkt",
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "title": "Freischaltung",
+    "hidden": "1=1",
+    "items": [
+      {
+        "type": "select",
+        "id": "product",
+        "label": "Betroffenes Produkt",
+        "rows": 1,
+        "required": true,
+        "dataDefinition": {
+          "script": "manyos/smileProducts",
+          "params": {},
+          "scope": "global",
+          "sortOnLabel": true
+        },
+        "value": ""
+      },
+      {
+        "id": "product",
+        "type": "block",
+        "title": "Störungsdetails",
+        "hidden": "1=1",
+        "items": [
+          {
+            "type": "text",
+            "id": "description",
+            "label": "Beschreibung der Störung",
+            "rows": 7,
+            "value": "Bitte beschreiben Sie die Störung so ausführlich wie möglich.",
+            "cols": 4,
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [],
+  "executeBeforeSubmit": [
+    {
+      "id": "setApprover",
+      "params": {
+        "foo": "bar"
+      }
+    }
+  ],
+  "executeAfterSubmit": [
+    {
+      "id": "createIssue",
+      "scope": "global",
+      "params": {
+          "title": "Störung"
+      }
+    }
+  ]
+}
