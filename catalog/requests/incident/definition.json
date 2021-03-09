@@ -31,21 +31,13 @@
         "value": ""
       },
       {
-        "id": "product",
-        "type": "block",
-        "title": "Störungsdetails",
-        "hidden": "1=1",
-        "items": [
-          {
-            "type": "text",
-            "id": "description",
-            "label": "Beschreibung der Störung",
-            "rows": 7,
-            "value": "Bitte beschreiben Sie die Störung so ausführlich wie möglich.",
-            "cols": 4,
-            "required": true
-          }
-        ]
+        "type": "text",
+        "id": "description",
+        "label": "Beschreibung der Störung",
+        "rows": 7,
+        "value": "Bitte beschreiben Sie die Störung so ausführlich wie möglich.",
+        "cols": 4,
+        "required": true
       }
     ]
   },
