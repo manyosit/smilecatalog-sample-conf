@@ -1,5 +1,6 @@
 const adapterParams = {
     remedy: {
+        type: "remedy",
         arServer: env.AR_SERVER,
         arUser: env.AR_USER,
         arPassword: env.AR_PASSWORD,
@@ -10,6 +11,7 @@ const adapterParams = {
         limitMax: env.LIMIT_MAX
     },
     ldap: {
+        type: "ldap",
         ldapUrl: env.LDAP_URL,
         ldapBind: env.LDAP_BIND,
         ldapSecret: env.LDAP_SECRET
