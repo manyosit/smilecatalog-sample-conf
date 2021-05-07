@@ -19,7 +19,10 @@ const adapterParams = {
     github:{
         type: "github",
         repositoryUrl: env.GITHUB_REPOSITORY_URL,
-        tokenUrl: env.GITHUB_TOKEN_URL
+        tokenUrl: env.GITHUB_TOKEN_URL,
+        tokenIssuer: env.GITHUB_TOKEN_ISSUER,
+        key: env.GITHUB_KEY,
+        user: env.GITHUB_USER
     }
 };
 
