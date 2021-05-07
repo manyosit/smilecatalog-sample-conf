@@ -16,7 +16,11 @@ const adapterParams = {
         ldapBind: env.LDAP_BIND,
         ldapSecret: env.LDAP_SECRET
     },
-    github:{}
+    github:{
+        type: "github",
+        repositoryUrl: env.GITHUB_REPOSITORY_URL,
+        tokenUrl: env.GITHUB_TOKEN_URL
+    }
 };
 
 // noinspection JSAnnotator
