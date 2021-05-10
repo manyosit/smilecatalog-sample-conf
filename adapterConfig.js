@@ -23,6 +23,16 @@ const adapterParams = {
         tokenIssuer: env.GITHUB_TOKEN_ISSUER,
         key: env.GITHUB_KEY,
         user: env.GITHUB_USER
+    },
+    mail: {
+        type: "mail",
+        host: env.SMTP_HOST,
+        port: env.SMTP_PORT,
+        secure: env.SMTP_SECURE || false, // true for 465, false for other ports
+        auth: {
+            user: env.SMTP_USER, // generated ethereal user
+            pass: env.SMTP_PASS, // generated ethereal password
+        },
     }
 };
 
