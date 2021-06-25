@@ -59,14 +59,13 @@
     "params": {},
     "scope": "global"
   },
+  "onBehalfOfScript": {
+    "id": "onbehalf/obo",
+    "params": {},
+    "scope": "global"
+  },
   "executeOnLoad": [],
   "executeBeforeSubmit": [
-    {
-      "id": "setApprover",
-      "params": {
-        "foo": "bar"
-      }
-    }
   ],
   "executeAfterSubmit": [
     {
