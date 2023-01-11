@@ -12,8 +12,26 @@ try {
     if (fields && Array.isArray(fields)) {
         fields = fields.toString();
     }
-    const result = await adapter.remedy.search(params.form, query, fields, arOptions);
-    const data = result.data;
+    let data = []
+    if (params.getAllRecords) {
+        const chunkSize = 1000;
+        const countResult = await adapter.remedy.search(params.form, query, fields, {countOnly:true});
+        let counter = 0;
+        while (counter < countResult.dataSize / chunkSize) {
+
+            arOptions.offset = counter * chunkSize;
+            arOptions.limit = chunkSize;
+            const result = await adapter.remedy.search(params.form, query, fields, arOptions);
+            data = [...data, ...result.data]
+            counter++
+        }
+    } else {
+        const result = await adapter.remedy.search(params.form, query, fields, arOptions);
+        data.push(result.data);
+    }
+
+    log.error(data.length)
+
     if (params.sortOnLabel == true) {
         data.sort(function(a, b) {
             const labelA = a.label.toUpperCase(); // Groß-/Kleinschreibung ignorieren
