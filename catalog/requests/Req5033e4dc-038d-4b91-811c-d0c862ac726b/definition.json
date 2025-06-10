@@ -1,0 +1,86 @@
+{
+  "id": "Req5033e4dc-038d-4b91-811c-d0c862ac726b",
+  "version": 2,
+  "title": "Neuer TestRecord",
+  "description": "aus der Testautomatisierung heraus erzeugt",
+  "srdId": "SRGAA5V0GENAWAO6U07LO5YL6Q945Z",
+  "approvals": [
+    "approvalField1",
+    "approvalField2",
+    "approvalField3"
+  ],
+  "requestDefinition": {
+    "id": "root",
+    "type": "block",
+    "min": 1,
+    "max": 5,
+    "hidden": "1=1",
+    "items": [
+      {
+        "id": "costcenterblock",
+        "type": "block",
+        "template": "costcenter",
+        "min": 1,
+        "max": 5,
+        "hidden": "1=1",
+        "items": [
+          {
+            "type": "select",
+            "id": "costcenter",
+            "label": "Lieblingsmitarbeiter",
+            "rows": 1,
+            "dataDefinition": {
+              "script": "ars101",
+              "params": {
+                "query": "'Remedy Login ID'=\"rhannemann\" OR 'Remedy Login ID'=\"astern\" OR 'First Name' LIKE \"a%\"",
+                "form": "CTM:People",
+                "labelField": "Full Name",
+                "valueField": "Person ID"
+              },
+              "sortOnLabel": true
+            },
+            "value": ""
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "demoHidden",
+        "label": "Demo Text Hide Feld",
+        "rows": 1,
+        "hidden": "`${demo-switch}` == true"
+      }
+    ]
+  },
+  "entitlementScript": {
+    "id": "entitlements/checkITUser",
+    "params": {},
+    "scope": "global"
+  },
+  "executeOnLoad": [],
+  "executeBeforeSubmit": [
+    {
+      "id": "setApprover",
+      "params": {
+        "foo": "bar"
+      }
+    }
+  ],
+  "executeAfterSubmit": [
+    {
+      "id": "createServiceRequest",
+      "scope": "global",
+      "params": {
+        "form": "SRM:RequestInterface_Create",
+        "dataField": "SR Type Field 1",
+        "entry": {
+          "Source Keyword": "SMILEcatalog",
+          "Company": "Calbro Services",
+          "AppRequestSummary": "Neuer SMILEcatalog Request",
+          "TitleInstanceID": "SRGAA5V0GENAWAO6U07LO5YL6Q945Z",
+          "Login ID": "rhannemann"
+        }
+      }
+    }
+  ]
+}
